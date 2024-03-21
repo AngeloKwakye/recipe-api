@@ -1,24 +1,47 @@
 import { RecipeModel } from '../models/recipe.js'
 
-export const addRecipe = async (req,res)=>{
-    // add recipe to the database 
-    const createResult = await RecipeModel.create(req.body)
-    //return response
-    res.json(createResult);
+export const addRecipe = async (req, res, next) => {
+    try {
+        // add recipe to the database 
+        const createResult = await RecipeModel.create(req.body)
+        //return response
+        res.status(201).json(createResult);
+    } catch (error) {
+        // forward to express error handler
+        next(error);
+    };
 }
 
-export const getRecipes = (req, res)=>{
-    res.send('helloooooo')
+
+export const getRecipes = async (req, res, next) => {
+    try {
+        const recipes = await RecipeModel.find({});
+        res.json({ data: recipes });
+    } catch (error) {
+        next(error)
+    }
+
 }
 
-export const getRecipe = (req,res)=>{
-    res.send('GET recipes');
+export const getRecipe = async (req, res, next) => {
+    try {
+        const recipe = await RecipeModel.findById(req.params.id);
+        if (!recipe) {
+            res.status(404).json({ 
+                message: `Recipe with object id: ${req.params.id} not found!` 
+            });
+        }
+        res.json({ data: recipe });
+    } catch (error) {
+        next(error);
+    }
+    // res.send('GET recipes');
 }
 
-export const updateRecipe = (req,res)=>{
+export const updateRecipe = (req, res) => {
     res.send('PATCH recipes');
 }
 
-export const deleteRecipe = (req,res)=>{
+export const deleteRecipe = (req, res) => {
     res.send('DELETE recepies');
 }

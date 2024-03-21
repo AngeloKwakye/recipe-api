@@ -4,9 +4,9 @@ import { addRecipe, deleteRecipe, getRecipe, getRecipes, updateRecipe } from "..
 const router = Router();
 
 
-router.get('', getRecipes)
+router.get('/', getRecipes)
 
-router.post('', addRecipe);
+router.post('/', addRecipe);
 
 router.get('/:id', getRecipe)
 
