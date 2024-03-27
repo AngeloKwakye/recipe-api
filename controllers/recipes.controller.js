@@ -3,7 +3,7 @@ import { RecipeModel } from '../models/recipe.js'
 export const addRecipe = async (req, res, next) => {
     try {
         // add recipe to the database 
-        console.log(req.file);
+        // console.log(req.file);
         const createResult = await RecipeModel.create({
             ...req.body,
             image: req.file.filename
